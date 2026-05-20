@@ -94,7 +94,7 @@ public class Banco01 {
                           System.out.print("Digite o valor do deposito: ");
                           float v = Float.parseFloat(input.nextLine());
                           c1.depositar(v);
-                          c1.pagarMensal();
+                          c1.bonusAbertura();
                       }
 
                   } else {

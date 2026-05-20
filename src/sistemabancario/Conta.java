@@ -138,14 +138,14 @@ public class Conta {
         }
     }
 
-    public void pagarMensal() {
+    public void bonusAbertura() {
         if (this.tipo.equals("Conta corrente")) {
-            this.saldo -= 2;
-            System.out.println("Voce pagou " + 2 + "R$ referente ao seu tipo de conta escolhido");
+            setSaldo(getSaldo() + 50);
+            System.out.println("Você recebeu R$50,00 de bônus pelo tipo de conta escolhido");
 
         } else if (this.tipo.equals("Conta poupança")) {
-            this.saldo -= 3;
-            System.out.println("Voce pagou " + 3 + "pelo seu tipo de conta escolhido");
+            setSaldo(getSaldo() + 100);
+            System.out.println("Você recebeu R$100,00 de bônus pelo tipo de conta escolhido");
 
         }
     }
