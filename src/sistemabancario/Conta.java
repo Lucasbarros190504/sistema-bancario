@@ -2,9 +2,8 @@ package sistemabancario;
 
 import java.util.Random;
 
-public class Conta {
+public abstract class Conta {
     private int numConta;
-    protected String tipo;
     private String dono;
     private float saldo;
     private boolean status;
@@ -16,6 +15,11 @@ public class Conta {
         this.status = false;
         this.saldo = 0.0f;
     }
+
+    public abstract void sacar(float v, String saqEspecial);
+
+    public abstract void bonusAbertura();
+
 
     public int getNumConta() {
         return numConta;
@@ -31,14 +35,6 @@ public class Conta {
 
     public void setSenha(int senha) {
         this.senha = senha;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public String getDono() {
@@ -66,17 +62,17 @@ public class Conta {
     }
 
 
-    public boolean abrirConta(String tipo, String dono, int senha) {
+    public boolean abrirConta(String dono, int senha) {
         if (!this.status) {
             Random rand = new Random();
             this.numConta = rand.nextInt(900000) + 100000;
 
            this.senha = senha;
            this.dono = dono;
-           this.tipo = tipo;
            this.status = true;
            System.out.println("Aqui esta o numero gerado da sua conta: " + this.numConta);
            System.out.println("Cadastro concluido com sucesso!");
+           this.bonusAbertura();
            return true;
         } else {
             System.out.println("Sua conta ja esta criada!");
@@ -117,43 +113,10 @@ public class Conta {
         }
     }
 
-    public void sacar(float v) {
-        if (this.status) {
-            if (this.saldo == 0f) {
-                System.out.println("Sua conta nao tem nenhum valor existente");
-            } else if (this.saldo > 0f) {
-                if (this.saldo - v < 0f) {
-                    System.out.println("Voce não tem saldo suficiente para esse saque");
-                } else {
-                    this.saldo -= v;
-                    System.out.println("Saque realizado com sucesso!");
-                    System.out.println("Saldo atual: " + this.saldo + "R$");
-                }
-
-
-            }
-        } else {
-            System.out.println("ERRO!");
-            System.out.println("Voce precisa Abrir uma conta primeiro");
-        }
-    }
-
-    public void bonusAbertura() {
-        if (this.tipo.equals("Conta corrente")) {
-            setSaldo(getSaldo() + 50);
-            System.out.println("Você recebeu R$50,00 de bônus pelo tipo de conta escolhido");
-
-        } else if (this.tipo.equals("Conta poupança")) {
-            setSaldo(getSaldo() + 100);
-            System.out.println("Você recebeu R$100,00 de bônus pelo tipo de conta escolhido");
-
-        }
-    }
-
     public void statusConta() {
         if (this.status) {
             System.out.println("NOME: " + getDono());
-            System.out.println("TIPO DE CONTA: " + getTipo());
+            System.out.println("TIPO DE CONTA: " + this.getClass().getSimpleName());
             System.out.println("NUMERO DA CONTA: " + getNumConta());
             System.out.println("SALDO DISPONIVEL: " + getSaldo());
 
