@@ -51,7 +51,7 @@ public class Banco01 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String menu;
-        Conta c1 = new Conta();
+        Conta c1 = null;
 
         System.out.println("========Bem vindo ao Banco LB!========");
 
@@ -71,7 +71,7 @@ public class Banco01 {
 
 
               case "1":
-                  if (!c1.getStatus()) {
+                  if (c1 == null || !c1.getStatus()) {
                       String tipo = escolherTipoConta(input);
                       System.out.println("Digite seu nome: ");
                       String dono = input.nextLine();
@@ -89,13 +89,18 @@ public class Banco01 {
                       }
                       System.out.println("Senha cadastrada com sucesso!");
 
-                      if (c1.abrirConta(tipo, dono, senha)) {
-                          System.out.println("Agora vamos fazer seu primeiro deposito");
-                          System.out.print("Digite o valor do deposito: ");
-                          float v = Float.parseFloat(input.nextLine());
-                          c1.depositar(v);
-                          c1.bonusAbertura();
+                      if(tipo.equalsIgnoreCase("Conta corrente")){
+                          c1 = new ContaCorrente();
+                      } else {
+                          c1 = new ContaPoupanca();
                       }
+
+                      c1.abrirConta(dono, senha);
+                      System.out.println("Agora vamos fazer seu primeiro deposito");
+                      System.out.print("Digite o valor do deposito: ");
+                      float v = Float.parseFloat(input.nextLine());
+                      c1.depositar(v);
+
 
                   } else {
                       System.out.println("Conta já cadastrada!");
@@ -104,7 +109,7 @@ public class Banco01 {
 
 
               case "2" :
-                  if (c1.getStatus()) {
+                  if (c1 != null && c1.getStatus()) {
 
                       if (autenticacaoUsuario(c1, input)) {
                           c1.fecharConta();
@@ -116,7 +121,7 @@ public class Banco01 {
                   break;
 
               case "3" :
-                  if (c1.getStatus()) {
+                  if (c1 != null && c1.getStatus()) {
 
                       if (autenticacaoUsuario(c1, input)) {
                           System.out.print("Digite o valor a ser depositado na sua conta: ");
@@ -131,13 +136,19 @@ public class Banco01 {
 
 
               case "4" :
-                  if (c1.getStatus()) {
+                  if (c1 != null && c1.getStatus()) {
 
                       if (autenticacaoUsuario(c1, input)) {
                           System.out.print("Qual o valor do saque: ");
                           float v = Float.parseFloat(input.nextLine());
-                          c1.sacar(v);
 
+                          String saq = "";
+                          if (c1.temSaqueEspecial()){
+                              System.out.println("Deseja utilizar se necessario o saque especial?");
+                              saq = input.nextLine();
+                          }
+
+                          c1.sacar(v, saq);
                       }
                   } else {
                       System.out.println("Conta nao cadastrada.");
@@ -145,7 +156,7 @@ public class Banco01 {
                   break;
 
               case "5" :
-                  if (c1.getStatus()) {
+                  if (c1 != null && c1.getStatus()) {
                       if (autenticacaoUsuario(c1, input)) {
                           c1.statusConta();
 

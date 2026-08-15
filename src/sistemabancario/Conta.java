@@ -20,6 +20,9 @@ public abstract class Conta {
 
     public abstract void bonusAbertura();
 
+    public boolean temSaqueEspecial(){
+        return false;
+    }
 
     public int getNumConta() {
         return numConta;
