@@ -4,50 +4,6 @@ import java.util.Scanner;
 
 public class Banco01 {
 
-    public static boolean autenticacaoUsuario(Conta c1, Scanner input){
-        int contador = 0;
-        while (contador <= 3) {
-            System.out.println("Digite numero da conta: ");
-            int conta = Integer.parseInt(input.nextLine());
-            System.out.println("Digite sua senha ");
-            int senha = Integer.parseInt(input.nextLine());
-
-            if (c1.autenticar(conta, senha)) {
-                System.out.println("Autenticação feita com sucesso!");
-                return true;
-
-
-            } else {
-                System.out.println("Tente novamente");
-                System.out.println("Tentativas restantes: " + (3 - contador));
-                contador++;
-
-            }
-        }
-        System.out.println("Tentativas esgotadas!");
-        return false;
-    }
-
-    public static String escolherTipoConta(Scanner input){
-        String tipo = "";
-        while (!tipo.equals("Conta corrente") && (!tipo.equals("Conta poupança"))){
-            System.out.println("Escolha sua conta: ");
-            System.out.println("[1] Conta corrente ");
-            System.out.println("[2] Conta poupança");
-            String opcao = input.nextLine();
-
-            if (opcao.equals("1")){
-                tipo = "Conta corrente";
-            } else if (opcao.equals("2")){
-                tipo = "Conta poupança";
-            } else {
-                System.out.println("OPÇÃO INVALIDA! TENTE NOVAMENTE!");
-            }
-        }
-        return tipo;
-
-    }
-
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String menu;
@@ -179,6 +135,50 @@ public class Banco01 {
 
 
       } while (!menu.equals("6"));
+
+    }
+
+    public static boolean autenticacaoUsuario(Conta c1, Scanner input){
+        int contador = 0;
+        while (contador <= 3) {
+            System.out.println("Digite numero da conta: ");
+            int conta = Integer.parseInt(input.nextLine());
+            System.out.println("Digite sua senha ");
+            int senha = Integer.parseInt(input.nextLine());
+
+            if (c1.autenticar(conta, senha)) {
+                System.out.println("Autenticação feita com sucesso!");
+                return true;
+
+
+            } else {
+                System.out.println("Tente novamente");
+                System.out.println("Tentativas restantes: " + (3 - contador));
+                contador++;
+
+            }
+        }
+        System.out.println("Tentativas esgotadas!");
+        return false;
+    }
+
+    public static String escolherTipoConta(Scanner input){
+        String tipo = "";
+        while (!tipo.equals("Conta corrente") && (!tipo.equals("Conta poupança"))){
+            System.out.println("Escolha sua conta: ");
+            System.out.println("[1] Conta corrente ");
+            System.out.println("[2] Conta poupança");
+            String opcao = input.nextLine();
+
+            if (opcao.equals("1")){
+                tipo = "Conta corrente";
+            } else if (opcao.equals("2")){
+                tipo = "Conta poupança";
+            } else {
+                System.out.println("OPÇÃO INVALIDA! TENTE NOVAMENTE!");
+            }
+        }
+        return tipo;
 
     }
 }
