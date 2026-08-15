@@ -24,6 +24,10 @@ public abstract class Conta {
         return false;
     }
 
+    public boolean autenticar(int numConta, int senha){
+        return this.numConta == numConta && this.senha == senha;
+    }
+
     public int getNumConta() {
         return numConta;
     }

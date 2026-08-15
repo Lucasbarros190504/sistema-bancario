@@ -12,7 +12,7 @@ public class Banco01 {
             System.out.println("Digite sua senha ");
             int senha = Integer.parseInt(input.nextLine());
 
-            if ((conta == c1.getNumConta()) && (c1.verificarSenha(senha))) {
+            if (c1.autenticar(conta, senha)) {
                 System.out.println("Autenticação feita com sucesso!");
                 return true;
 
