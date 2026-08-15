@@ -13,6 +13,8 @@ public class ContaCorrente extends Conta {
                 this.setSaldo(this.getSaldo() + 100);
                 this.setSaldo(this.getSaldo() - v);
                 System.out.println("Saque realizado com sucesso!");
+            } else {
+                System.out.println("Saque não realizado. Saldo insuficiente sem o uso do saque especial.");
             }
         } else {
             System.out.println("Saldo insuficiente!");
