@@ -1,5 +1,7 @@
 package sistemabancario;
 
+import sistemabancario.enums.*;
+
 import java.util.Scanner;
 
 public class Banco01 {
@@ -51,11 +53,22 @@ public class Banco01 {
                           c1 = new ContaPoupanca();
                       }
 
-                      c1.abrirConta(dono, senha);
+                      ResultadoAbertura resultadoAbertura = c1.abrirConta(dono, senha);
+                      switch (resultadoAbertura) {
+                          case SUCESSO -> {
+                              System.out.println("Conta gerada com sucesso!");
+                              System.out.println("Aqui esta o numero gerado da sua conta: " + c1.getNumConta());
+                          }
+                          case CONTA_JA_EXISTE -> System.out.println("Conta ja existente!");
+                      }
                       System.out.println("Agora vamos fazer seu primeiro deposito");
                       System.out.print("Digite o valor do deposito: ");
                       float v = Float.parseFloat(input.nextLine());
-                      c1.depositar(v);
+                      ResultadoDeposito resultadoDeposito = c1.depositar(v);
+                      switch (resultadoDeposito) {
+                          case SUCESSO -> System.out.println("Deposito realizado com sucesso!");
+                          case CONTA_INEXISTENTE -> System.out.println("Conta inexistente!");
+                      }
 
 
                   } else {
@@ -65,11 +78,16 @@ public class Banco01 {
 
 
               case "2" :
-                  if (c1 != null && c1.getStatus()) {
+                  if (c1 != null) {
 
                       if (autenticacaoUsuario(c1, input)) {
-                          c1.fecharConta();
-
+                          ResultadoFechamento resultado = c1.fecharConta();
+                          switch (resultado) {
+                              case SUCESSO -> System.out.println("Conta fechada com sucesso!");
+                              case CONTA_INEXISTENTE -> System.out.println("Você não tem nenhuma conta existente!");
+                              case DEBITO_PENDENTE -> System.out.println("Não é possível fechar: há valores a pagar!");
+                              case SALDO_POSITIVO -> System.out.println("Não é possível fechar: existe saldo disponível!");
+                          }
                       }
                   } else {
                       System.out.println("Conta não cadastrada.");
@@ -77,12 +95,19 @@ public class Banco01 {
                   break;
 
               case "3" :
-                  if (c1 != null && c1.getStatus()) {
+                  if (c1 != null) {
 
                       if (autenticacaoUsuario(c1, input)) {
                           System.out.print("Digite o valor a ser depositado na sua conta: ");
                           float v = Float.parseFloat(input.nextLine());
-                          c1.depositar(v);
+                          ResultadoDeposito resultado = c1.depositar(v);
+                          switch (resultado) {
+                              case SUCESSO ->{
+                                  System.out.println("Deposito realizado com sucesso!");
+                                  System.out.println("Seu saldo atual é: " + c1.getSaldo() + " R$");
+                              }
+                              case CONTA_INEXISTENTE -> System.out.println("Conta inexistente!");
+                          }
 
                       }
                   } else {
@@ -104,7 +129,13 @@ public class Banco01 {
                               saq = input.nextLine();
                           }
 
-                          c1.sacar(v, saq);
+                          ResultadoSaque resultado = c1.sacar(v, saq);
+                          switch (resultado) {
+                              case SUCESSO -> System.out.println("Saque realizado com Sucesso!");
+                              case SALDO_INSUFICIENTE -> System.out.println("Saldo insuficiente!");
+                              case SALDO_INSUFICIENTE_SEM_ESPECIAL -> System.out.println("Saque não realizado. Saldo insuficiente sem o uso do saque especial.");
+
+                          }
                       }
                   } else {
                       System.out.println("Conta nao cadastrada.");
@@ -114,8 +145,17 @@ public class Banco01 {
               case "5" :
                   if (c1 != null && c1.getStatus()) {
                       if (autenticacaoUsuario(c1, input)) {
-                          c1.statusConta();
+                          ResultadoStatus resultado = c1.statusConta();
+                          switch (resultado) {
+                              case SUCESSO -> {
+                                  System.out.println("Nome: " + c1.getDono());
+                                  System.out.println("Tipo de conta: " + c1.getClass().getSimpleName());
+                                  System.out.println("Número da conta: " + c1.getNumConta());
+                                  System.out.println("Saldo: " + c1.getSaldo());
 
+                              }
+                              case CONTA_INEXISTENTE -> System.out.println("Conta inexistente!");
+                          }
                       }
                   } else {
                       System.out.println("Conta nao cadastrada.");

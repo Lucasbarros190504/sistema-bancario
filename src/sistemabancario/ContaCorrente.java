@@ -1,23 +1,25 @@
 package sistemabancario;
 
+import sistemabancario.enums.ResultadoSaque;
+
 public class ContaCorrente extends Conta {
 
     @Override
-    public void sacar(float v,String saqEspecial) {
+    public ResultadoSaque sacar(float v, String saqEspecial) {
         if(v <= this.getSaldo()){
             this.setSaldo(this.getSaldo() - v);
-            System.out.println("Saque realizado com sucesso!");
+            return ResultadoSaque.SUCESSO;
 
         } else if (v <= this.getSaldo() + 100){
             if(saqEspecial.equalsIgnoreCase("SIM")){
                 this.setSaldo(this.getSaldo() + 100);
                 this.setSaldo(this.getSaldo() - v);
-                System.out.println("Saque realizado com sucesso!");
+                    return ResultadoSaque.SUCESSO;
             } else {
-                System.out.println("Saque não realizado. Saldo insuficiente sem o uso do saque especial.");
+                return ResultadoSaque.SALDO_INSUFICIENTE_SEM_ESPECIAL;
             }
         } else {
-            System.out.println("Saldo insuficiente!");
+            return ResultadoSaque.SALDO_INSUFICIENTE;
         }
     }
 

@@ -1,5 +1,7 @@
 package sistemabancario;
 
+import sistemabancario.enums.*;
+
 import java.util.Random;
 
 public abstract class Conta {
@@ -16,7 +18,7 @@ public abstract class Conta {
         this.saldo = 0.0f;
     }
 
-    public abstract void sacar(float v, String saqEspecial);
+    public abstract ResultadoSaque sacar(float v, String saqEspecial);
 
     public abstract void bonusAbertura();
 
@@ -66,7 +68,7 @@ public abstract class Conta {
     }
 
 
-    public boolean abrirConta(String dono, int senha) {
+    public ResultadoAbertura abrirConta(String dono, int senha) {
         if (!this.status) {
             Random rand = new Random();
             this.numConta = rand.nextInt(900000) + 100000;
@@ -74,61 +76,51 @@ public abstract class Conta {
            this.senha = senha;
            this.dono = dono;
            this.status = true;
-           System.out.println("Aqui esta o numero gerado da sua conta: " + this.numConta);
-           System.out.println("Cadastro concluido com sucesso!");
            this.bonusAbertura();
-           return true;
+
+           return ResultadoAbertura.SUCESSO;
+
         } else {
-            System.out.println("Sua conta ja esta criada!");
-            return false;
+            return ResultadoAbertura.CONTA_JA_EXISTE;
 
         }
 
     }
 
 
-    public void fecharConta() {
-        if (this.status) {
-            if (this.saldo == 0f) {
-                System.out.println("Conta fechada com sucesso!");
-                this.status = false;
-            } else if (this.saldo < 0f) {
-                System.out.println("Não é possivel fazer um fechamento da sua conta,pois existem valores a serem pagos!");
-            } else if (this.saldo > 0f) {
-                System.out.println("Não é possivel fazer um fechamento da sua conta,pois exite valor existente");
-
-            }
-        } else {
-            System.out.println("Você não tem nenhuma conta existente!");
-
+    public ResultadoFechamento fecharConta() {
+        if(!this.status) {
+            return ResultadoFechamento.CONTA_INEXISTENTE;
         }
+        if (this.saldo < 0f) {
+            return ResultadoFechamento.DEBITO_PENDENTE;
+        }
+        if (this.saldo > 0f) {
+           return ResultadoFechamento.SALDO_POSITIVO;
+        }
+
+        this.status = false;
+        return ResultadoFechamento.SUCESSO;
 
     }
 
-    public void depositar(float v) {
-        if (this.status) {
-            this.saldo += v;
-            System.out.println("Deposito realizado com sucesso!");
-            System.out.println("Seu saldo atual é: " + this.saldo + "R$");
+    public ResultadoDeposito depositar(float v) {
+        if (!this.status) {
+            return  ResultadoDeposito.CONTA_INEXISTENTE;
 
-        } else{
-            System.out.println("ERRO!");
-            System.out.println("Voce precisa Abrir uma conta primeiro");
         }
+        this.saldo += v;
+        return ResultadoDeposito.SUCESSO;
+
     }
 
-    public void statusConta() {
+    public ResultadoStatus statusConta() {
         if (this.status) {
-            System.out.println("NOME: " + getDono());
-            System.out.println("TIPO DE CONTA: " + this.getClass().getSimpleName());
-            System.out.println("NUMERO DA CONTA: " + getNumConta());
-            System.out.println("SALDO DISPONIVEL: " + getSaldo());
+            return  ResultadoStatus.SUCESSO;
 
-        } else {
-            System.out.println("ERRO!");
-            System.out.println("Você não tem dados ainda!");
-            System.out.println("Voce precisa Abrir uma conta primeiro");
         }
+
+        return ResultadoStatus.CONTA_INEXISTENTE;
     }
 
 

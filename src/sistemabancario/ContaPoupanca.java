@@ -1,15 +1,18 @@
 package sistemabancario;
 
+import sistemabancario.enums.ResultadoSaque;
+
 public class ContaPoupanca extends Conta {
 
     @Override
-    public void sacar(float v, String saqEspecial) {
+    public ResultadoSaque sacar(float v, String saqEspecial) {
         if(v <= this.getSaldo()){
             this.setSaldo(this.getSaldo() - v);
-            System.out.println("Saque realizado com sucesso!");
-        } else {
-            System.out.println("Saldo insuficiente!");
+            return ResultadoSaque.SUCESSO;
         }
+
+        return ResultadoSaque.SALDO_INSUFICIENTE;
+
     }
 
     @Override
