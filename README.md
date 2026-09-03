@@ -19,21 +19,33 @@ Sistema bancário desenvolvido em Java como projeto prático de estudo de Progra
 ## 📚 Conceitos praticados
 
 - Programação Orientada a Objetos (POO)
-- Encapsulamento
+- Herança e Template Method (classe abstrata `Conta` define o fluxo, subclasses `ContaCorrente`/`ContaPoupanca` implementam as regras específicas de cada tipo)
+- Encapsulamento (senha nunca é exposta, apenas verificada)
+- Uso de enums para representar resultados de operações, separando a regra de negócio da apresentação ao usuário
 - Métodos e atributos
 - Reutilização de código
 - Estruturas de repetição
 - Switch case
 - Validação de dados
-- Organização de código
+- Organização de código em pacotes (model, enums, app)
 
 ## 📁 Estrutura do Projeto
 
 ~~~~
 src/
-└──sistemabancario/
-   ├── Conta.java      # Entidade da conta bancária
-   └── Banco01.java    # Interface de interação com o usuário
+└── sistemabancario/
+    ├── app/
+    │   └── Banco01.java         # Ponto de entrada e interação com o usuário
+    ├── enums/
+    │   ├── ResultadoAbertura.java
+    │   ├── ResultadoDeposito.java
+    │   ├── ResultadoFechamento.java
+    │   ├── ResultadoSaque.java
+    │   └── ResultadoStatus.java
+    └── model/
+        ├── Conta.java           # Classe abstrata com regras comuns (Template Method)
+        ├── ContaCorrente.java   # Regras específicas de conta corrente
+        └── ContaPoupanca.java   # Regras específicas de conta poupança
 ~~~~
 
 ## 🚀 Como executar
