@@ -1,6 +1,9 @@
-package sistemabancario;
+package sistemabancario.app;
 
 import sistemabancario.enums.*;
+import sistemabancario.model.Conta;
+import sistemabancario.model.ContaCorrente;
+import sistemabancario.model.ContaPoupanca;
 
 import java.util.Scanner;
 

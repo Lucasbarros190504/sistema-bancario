@@ -1,4 +1,4 @@
-package sistemabancario;
+package sistemabancario.model;
 
 import sistemabancario.enums.ResultadoSaque;
 
